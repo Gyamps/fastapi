@@ -1,0 +1,24 @@
+[Unit]
+# This is a description and hence you can write
+# it as you please.
+Description=gunicorn instance to server api
+# Tells Ubuntu (systemd) when to start the service
+# In this case we tell Ubuntu to have the netweork 
+# service running before ours. 
+After=network.target
+
+[Service]
+# indicate user on the linux system
+User=kwabs
+# user on linux system can be used for group
+# variable as well
+Group=kwabs
+# Working directory of application
+WorkingDirectory=/home/kwabs/Documents/fastapi
+# Path to environment variable bin folder
+Environment="PATH=/home/kwabs/Documents/fastapi/env/bin"
+# Command for executing the application server
+ExecStart=/home/kwabs/Documents/fastapi/env/bin/gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.main:app --bind 0.0.0.0:8000
+
+[Install]
+WantedBy=multi-user.target
